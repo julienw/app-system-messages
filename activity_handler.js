@@ -34,8 +34,7 @@
 
   function onNotification(notification) {
     console.log('onNotification()');
-    if (!notification.clicked && document.hidden) {
-      window.close();
+    if (!notification.clicked) {
       return;
     }
 
