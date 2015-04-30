@@ -16,20 +16,36 @@
   }
 
   function onSmsReceived(message) {
+    console.log('onSmsReceived()');
     messageTextNode.textContent = message.body;
     messageNode.hidden = false;
     sendNotification(message);
   }
 
   function sendNotification(message) {
-    new Notification("Received message", { body: message.body });
+    console.log('sendNotification()');
+    var notification = new Notification(
+      'Received message', { body: message.body }
+    );
+    notification.onclick = () => onNotification(
+      { clicked: true, body: message.body }
+    );
   }
 
   function onNotification(notification) {
+    console.log('onNotification()');
     if (!notification.clicked && document.hidden) {
       window.close();
       return;
     }
+
+    console.log('onNotification(clicked)');
+
+    Notification.get().then(
+      notifications => notifications.forEach(
+        notification => notification.close()
+      )
+    );
 
     notificationTextNode.textContent = notification.body;
     notificationNode.hidden = false;
@@ -38,6 +54,7 @@
   }
 
   function ensureIsDisplayed() {
+    console.log('ensureIsDisplayed()');
     if (document.hidden) {
       navigator.mozApps.getSelf().then(app => app.launch());
     }
