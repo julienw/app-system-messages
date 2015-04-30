@@ -15,7 +15,7 @@
   "default_locale": "en-US",
   "orientation": "default",
   "messages": [
-     { "sms-received": "/index.html" },
-     { "notification": "/index.html" }
+     { "sms-received": "/index.html#sms-received" },
+     { "notification": "/index.html#notification" }
   ]
 }
