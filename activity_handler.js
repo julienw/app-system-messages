@@ -5,25 +5,36 @@
   var messageTextNode = document.querySelector('.message-text');
   var notificationNode = document.querySelector('.received-notification');
   var notificationTextNode = document.querySelector('.notification-text');
+  var reactsTo = document.querySelector('meta[name="reacts-to"]').content;
+
+  var handlers = {
+    'sms-received': onSmsReceived,
+    'notification': onNotification
+  };
+
+  function log(str) {
+    console.log(window.location.pathname, ':', str);
+  }
 
   function init() {
     if (!window.navigator.mozSetMessageHandler) {
       return;
     }
 
-    window.navigator.mozSetMessageHandler('sms-received', onSmsReceived);
-    window.navigator.mozSetMessageHandler('notification', onNotification);
+    if (reactsTo in handlers) {
+      window.navigator.mozSetMessageHandler(reactsTo, handlers[reactsTo]);
+    }
   }
 
   function onSmsReceived(message) {
-    console.log('onSmsReceived()');
+    log('onSmsReceived()');
     messageTextNode.textContent = message.body;
     messageNode.hidden = false;
     sendNotification(message);
   }
 
   function sendNotification(message) {
-    console.log('sendNotification()');
+    log('sendNotification()');
     var notification = new Notification(
       'Received message', { body: message.body }
     );
@@ -33,12 +44,12 @@
   }
 
   function onNotification(notification) {
-    console.log('onNotification()');
+    log('onNotification()');
     if (!notification.clicked) {
       return;
     }
 
-    console.log('onNotification(clicked)');
+    log('onNotification(clicked)');
 
     Notification.get().then(
       notifications => notifications.forEach(
@@ -53,7 +64,7 @@
   }
 
   function ensureIsDisplayed() {
-    console.log('ensureIsDisplayed()');
+    log('ensureIsDisplayed()');
     if (document.hidden) {
       navigator.mozApps.getSelf().then(app => app.launch());
     }
