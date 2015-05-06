@@ -49,6 +49,9 @@
     notificationTextNode.textContent = notification.body;
     notificationNode.hidden = false;
 
+    // change hash so that we receive sms-received messages
+    location.hash = '';
+
     ensureIsDisplayed();
   }
 

@@ -3,7 +3,8 @@
 (function() {
   var hashNode = document.querySelector('.hash');
   function onHashChange() {
-    hashNode.textContent = location.hash;
+    console.log(`onHashChange: new hash is ${location.hash}`);
+    hashNode.textContent += `Hash is: ${location.hash}\n`;
   }
 
   function init() {
@@ -12,4 +13,4 @@
   }
 
   init();
-})()
+})();
