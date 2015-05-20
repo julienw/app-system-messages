@@ -16,6 +16,6 @@
   "orientation": "default",
   "messages": [
      { "sms-received": "/sms.html" },
-     { "notification": "/notification.html" }
+     { "notification": "/index.html" }
   ]
 }

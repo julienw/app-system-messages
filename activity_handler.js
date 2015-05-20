@@ -33,14 +33,23 @@
     sendNotification(message);
   }
 
+  function isInIframe() {
+    return window.parent !== window;
+  }
+
   function sendNotification(message) {
     log('sendNotification()');
     var notification = new Notification(
       'Received message', { body: message.body }
     );
-    notification.onclick = () => onNotification(
-      { clicked: true, body: message.body }
-    );
+
+    if (isInIframe()) {
+      notification.onclick = () => onNotification(
+        { clicked: true, body: message.body }
+      );
+    } else {
+      notification.onshow = () => window.close();
+    }
   }
 
   function onNotification(notification) {
