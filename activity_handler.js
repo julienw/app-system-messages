@@ -60,13 +60,16 @@
     notificationTextNode.textContent = notification.body;
     notificationNode.hidden = false;
 
-    ensureIsDisplayed();
+    ensureIsDisplayed({
+      body: notification.body
+    });
   }
 
-  function ensureIsDisplayed() {
+  function ensureIsDisplayed(params) {
     log('ensureIsDisplayed()');
     if (document.hidden) {
-      navigator.mozApps.getSelf().then(app => app.launch());
+      var url = '/conversation.html#body=' + encodeURIComponent(params.body);
+      window.open(url);
     }
   }
 
